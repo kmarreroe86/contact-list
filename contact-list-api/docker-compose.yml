@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+    nest-api-dev:
+        container_name: contact-list-api-dev
+        # image: contact-list-api-dev:1.0.0
+        build:
+          context: .
+          target: development
+          dockerfile: Dockerfile
+        volumes:
+          - .:/usr/src/app
+          - /usr/src/app/node_modules
+        ports:
+          - ${SERVER_PORT}:${SERVER_PORT}
+          - 9229:9229
+        command: npm run start:dev
+        env_file:
+          - .env
+        networks:
+          - webnet
+        depends_on:        
+          - postgres
+    nest-api-prod:
+        container_name: contact-list-api-prod
+        # image: contact-list-api-dev:1.0.0
+        build:
+          context: .
+          target: production
+          dockerfile: Dockerfile
+        volumes:
+          - .:/usr/src/app
+          - /usr/src/app/node_modules
+        ports:
+          - ${SERVER_PORT}:${SERVER_PORT}
+          - 9229:9229
+        command: npm run start:prod
+        env_file:
+          - .env
+        networks:
+          - webnet
+        depends_on:        
+          - postgres
+    postgres:
+        image: postgres:13
+        restart: always
+        container_name: postgres        
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_DB: ${DB_DATABASE_NAME}
+            # PGDATA: /var/lib/postgres/data/pgdata
+            PG_DATA: /var/lib/postgresql/data
+        ports:
+            - 15432:5432
+        volumes: 
+            # - pgdata:/var/lib/postgres/data
+            - pgdata:/var/lib/postgresql/data
+        networks: 
+            - webnet
+volumes: 
+    # pgdata: {}
+    pgdata:
+networks: 
+    webnet:
+        name: contact_list_net
+        # driver: bridge
+    

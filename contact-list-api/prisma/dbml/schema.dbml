@@ -1,0 +1,23 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id Int [pk, increment]
+  name String [not null]
+  email String [unique, not null]
+  phoneNumber String [not null]
+  address Address
+}
+
+Table Address {
+  id Int [pk, increment]
+  country String [not null]
+  city String [not null]
+  street String [not null]
+  zipcode String [not null]
+  userId Int [not null]
+  user User [not null]
+}
+
+Ref: Address.userId - User.id
