@@ -1,0 +1,44 @@
+.card-container {
+    display: flex;
+    border: 2px solid #F3F4F5;
+    align-items: center;
+
+    > div {
+        flex: 1;
+
+        img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+
+        label, input {
+            color: #707070;
+        }
+
+        input {
+            width: 100%;
+            letter-spacing: .01428571em;
+            font-size: .875rem;
+            font-weight: 700;
+            line-height: 1.25rem;            
+            min-height: 1em;
+            overflow: auto;
+            padding: 0;
+            white-space: nowrap;
+            // &:focus {
+                // box-shadow: none;
+            // }
+            &:read-only {
+                box-shadow: none;
+                outline: 1px solid transparent;
+                background-color: transparent;
+                border: none;  
+            }
+
+            &.invalid-field {
+                border: 1px solid red;
+            }
+        }
+    }
+}

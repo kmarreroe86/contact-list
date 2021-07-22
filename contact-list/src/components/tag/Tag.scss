@@ -1,0 +1,28 @@
+.tag {
+    position: relative;
+    text-align: left;
+    background-color: #F3F4F5;
+    border: none;
+    color: #818181;
+    min-width: 70px;
+    border-radius: 15px;
+    flex: 1 1 200px;
+    // padding-right: 20px;
+
+    display: flex;
+    justify-content: space-between; 
+
+    button {        
+        margin-right: 15px;	    
+        padding: 0 !important;
+        border: none;
+        height: 16px;
+        width: 16px;
+        
+        &:focus {
+            outline: none;
+        }
+
+        
+    }
+}

@@ -1,0 +1,59 @@
+.navbar {
+    padding: 2rem 1.5rem;
+    background-color: #0B0E11;
+
+    .container-fluid {
+        display: block;
+        background-color: transparent;
+        
+        .row {
+            background-color: white;
+
+            .navbar-collapse {
+                display: flex;
+                flex-flow: wrap;
+                justify-content: left;
+                padding: 0;
+                margin: 0;
+
+                div {
+                    flex: 1 1 200px;
+
+                    input {
+                        width: 100%;
+                        letter-spacing: .01428571em;
+                        font-size: .875rem;
+                        font-weight: 400;
+                        line-height: 1.25rem;
+                        background-color: transparent;
+                        border: none;  
+                        min-height: 1em;
+                        outline: 1px solid transparent;
+                        overflow: auto;
+                        padding: 0;
+                        white-space: nowrap;
+                        &:focus {
+                            box-shadow: none;
+                        }
+                    }
+                }
+            }
+
+            button {
+                padding: 0.25rem 1.75rem;
+                &.magnifying {
+                    padding: 5px 15px;
+                    background-color: transparent;
+                    border: none;
+                    text-align: center;
+                    cursor: pointer;
+                    &:focus {
+                        outline: none;
+                    }
+                }
+            }
+        }
+    
+        
+    }
+}

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { PrismaService } from "src/core/prisma.service";
 import { PaginatedDto } from "./dtos/paginated.dto";
 import { UserAddressDto } from "./dtos/user-address.dto";
@@ -106,57 +106,33 @@ export class UserService {
     async findFilteredUsers(criterias: string): Promise<UserAddressDto[]> {
         const prisma = new PrismaClient({
             log: ['query', 'info', `warn`, `error`],
-          })
-        console.log('criterias: ', criterias);
-          
-        const result = await prisma.user.findMany({            
+        });
+
+        const result = await prisma.user.findMany({
             where: {
                 OR: [
                     {
-                        name: { in: criterias }
-                        // name: { contains: criterias }
+                        name: { in: criterias, mode: "insensitive" }
                     },
                     {
-                        email: { in: criterias }
-                        // email: { contains: criterias }
+                        email: { in: criterias, mode: "insensitive" }
                     },
                     {
-                        phoneNumber: { in: criterias }
-                        // phoneNumber: { contains: criterias }
+                        phoneNumber: { in: criterias, mode: "insensitive" }
                     },
                     {
-                        address: { country: { in: criterias } }
+                        address: { country: { in: criterias, mode: "insensitive" } }
                     },
                     {
-                        address: { city: { in: criterias } }
+                        address: { city: { in: criterias, mode: "insensitive" } }
                     },
                     {
-                        address: { street: { in: criterias } }
+                        address: { street: { in: criterias, mode: "insensitive" } }
                     },
                     {
-                        address: { zipcode: { in: criterias } }
+                        address: { zipcode: { in: criterias, mode: "insensitive" } }
                     }
-                ] /* ,
-                address: {
-                    OR: [
-                        {
-                            country: { in: criterias }
-                            // country: { contains: criterias }
-                        },
-                        {
-                            city: { in: criterias }
-                            // city: { contains: criterias }
-                        },
-                        {
-                            street: { in: criterias }
-                            // street: { contains: criterias }
-                        },
-                        {
-                            zipcode: { in: criterias }
-                            // zipcode: { contains: criterias }
-                        }
-                    ]
-                } */
+                ]
             },
             select: {
                 id: true,
@@ -179,7 +155,7 @@ export class UserService {
         });
 
         console.log('result: ', result);
-        
+
         const userDtos: UserAddressDto[] = result.map(u => {
             return {
                 id: u.id, name: u.name, email: u.email, phoneNumber: u.phoneNumber,
@@ -213,5 +189,13 @@ export class UserService {
         });
 
         return updated !== null;
+    }
+
+    async delete(id: number) {
+        const user = await this.prismaService.user.delete({
+            where: { id: id },
+        });
+
+        return user;
     }
 }

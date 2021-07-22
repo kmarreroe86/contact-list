@@ -9,10 +9,11 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
   output = "../node_modules/.prisma/client"
+  previewFeatures = ["referentialActions"]
 }
 
 generator dbml {
-  provider = "prisma-dbml-generator"
+  provider = "prisma-dbml-generator"  
 }
 
 model User {
@@ -32,5 +33,5 @@ model Address {
   street      String   
   zipcode     String 
   userId      Int @map("user_id")
-  user        User   @relation(fields: [userId], references: [id])
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

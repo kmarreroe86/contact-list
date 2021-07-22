@@ -1,25 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
+import Navbar from './components/navbar/Navbar';
+import CardUser from './components/card-user/CardUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootStore } from './redux';
+import { fetchUsers, deleteUser, editUser, fetchFilteredUsers } from './redux/action-creators/index';
+import Loading from './components/loader/Loading';
+import { User } from './models/UserAddress';
 
 function App() {
+  const dispatch = useDispatch();
+  const usersState = useSelector((state: RootStore) => state.user);
+
+  useEffect(() => {
+    dispatch(fetchUsers())
+  }, []);
+
+  const onClickRemoveUser = (id: number) => dispatch(deleteUser(id))
+
+  const onClickSave = (id: number, user: User) => dispatch(editUser(id, user));
+
+  const handleSearch = (creiterias: string) => dispatch(fetchFilteredUsers(creiterias));
+  
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>    
+      <Navbar handleSearch={handleSearch}/>  
+
+      <main className="container2 px-3 pt-4">
+        {usersState.users && (
+          <div className="row">
+            <div className="col-12 p-0">
+              {usersState.users.map(u => (
+                <CardUser
+                  key={u.id}
+                  model={u}
+                  onDeleteClicked={onClickRemoveUser}
+                  onClickSave={onClickSave}
+                />
+              )
+              )}
+            </div>
+          </div>
+        )}
+      </main>
+      {usersState.loading && (<Loading />)}
+    </>
   );
 }
 
