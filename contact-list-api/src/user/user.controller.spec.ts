@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { PrismaService } from './../core/prisma.service';
 
 describe('AppController', () => {
     let appController: UserController;
@@ -18,11 +17,7 @@ describe('AppController', () => {
 
         const app: TestingModule = await Test.createTestingModule({
             controllers: [UserController],
-            providers: [UserApiServiceProvider, PrismaService/* ,
-                {
-                    provide: APP_FILTER,
-                    useClass: HttpExceptionFilter,
-                  } */],
+            providers: [UserApiServiceProvider],
         }).compile();
 
         appController = app.get<UserController>(UserController);
@@ -44,9 +39,4 @@ describe('AppController', () => {
           expect(spyService.findFilteredUsers).toHaveBeenCalled();
         });
       });
-    /* describe('root', () => {
-        it('should return "Hello World!"', () => {
-            expect(appController.getHello()).toBe('Hello World!');
-        });
-    }); */
 });

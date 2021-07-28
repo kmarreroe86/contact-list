@@ -4,7 +4,7 @@ import { UserAddressDto } from './dtos/user-address.dto';
 import { UserService } from './user.service';
 
 
-// @UseFilters(HttpExceptionFilter)
+@UseFilters(HttpExceptionFilter)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) { }
